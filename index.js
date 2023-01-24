@@ -4,30 +4,27 @@ const path = require('path')
 const app = express()
 
 /**
- * Creación del
+ * app.use es una fucnión especial que incrementa la funcionalidad de la app añadiendola al middleware stack
+ * express.static es un paquete dentro de Express que nos ayuda  a servir archivos estáticos.
+ * En este caso, cualquier request que pida algñún asset se extraerá de la carpeta public.
  */
-
-app.listen(3000, ()=>{
-    console.log('Aplicación creada a traves de Express con puerto 3000')
-}) 
-
-
-// Con Express podemos modificar el tipo de respuesta a las requests del navegador. En este caso estamos devolviendo un json al GET en /about
-app.get('/about', (req, res) =>{
-    res.json({
-        name: 'Diego Viador'
-    })
-})
+app.use(express.static('public'))
 
 /**
- * En el caso de que queramos hacer routing de más endpoints, el if-else antiguo de la rama testing,
- * quedará refactorizado con Express en pequeñas funciones, encargadas cada una de manejar cada endpoint
+ * Creación de la aplicación con el start del server en su interior como función callback del 2º argumento.
  */
+app.listen(3000, ()=>{
+    console.log('Server iniciado')
+}) 
 
- //Paquete de node que nos ayuda a conseguir la ruta específica de un archivo, ya que res necesita siempre el absolute path.
+app.get('/about', (req, res) =>{
+    res.sendFile(path.resolve(__dirname, './pages/about.html'))
+}) 
+
+app.get('/contact', (req, res) =>{
+    res.sendFile(path.resolve(__dirname, './pages/contact.html')) 
+}) 
 
 app.get('/', (req, res) =>{
-    res.sendFile(path.resolve(__dirname, './html/index.html')) //Dentro del método sendFIle() se encuentra la ruta absoluta que gracias a path podemos obtener, con indiferencia del sistema de directorios de nuestro OS
-})
-
-//Como curiosidad el método sendFile() con vainilla Node equivaldría a escribir 40+ líneas de código.
+    res.sendFile(path.resolve(__dirname, './pages/index.html')) 
+}) 
