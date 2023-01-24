@@ -1,12 +1,10 @@
-const express = require('express') //hace uso del paquete express instalado con npm
+const express = require('express') 
+const path = require('path')
 
-const app = express() //llama a la función express para empezar una nueva app Express.
-
+const app = express()
 
 /**
- * Express se hace cargo del paquete http para gestionar  los objectos request y response. 
- * La función callback en este caso, se incluye como segundo argumento de la función app.listen() cuando se inicia
- * el servidor. 
+ * Creación del
  */
 
 app.listen(3000, ()=>{
@@ -26,10 +24,10 @@ app.get('/about', (req, res) =>{
  * quedará refactorizado con Express en pequeñas funciones, encargadas cada una de manejar cada endpoint
  */
 
-const path = require('path') //Packete de node que nos ayuda a conseguir la ruta específica de un archivo, ya que res necesita siempre el absolute path.
+ //Paquete de node que nos ayuda a conseguir la ruta específica de un archivo, ya que res necesita siempre el absolute path.
 
 app.get('/', (req, res) =>{
     res.sendFile(path.resolve(__dirname, './html/index.html')) //Dentro del método sendFIle() se encuentra la ruta absoluta que gracias a path podemos obtener, con indiferencia del sistema de directorios de nuestro OS
 })
 
-//COmo curiosidad el método sendFile() con vainilla Node equivaldría a escribir 40+ líneas de código
+//Como curiosidad el método sendFile() con vainilla Node equivaldría a escribir 40+ líneas de código.
