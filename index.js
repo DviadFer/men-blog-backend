@@ -1,40 +1,43 @@
 /**
- * Se ha instalado nodemon en Node para que automaticamente haga restart del server capa vez que se detecten cambios en index.js (server-side file).
- * --save option: Añade el paquete a nuestro package.json para que se pueda instalar en un futuro en otra maquina como dependencia.
- * -dev option: No instalará nodemon en la versión de la app para producción.
- * Después de su instalación, para usar su funcionalidad, basta con añadir el script 'start' customizado en package.json
- * A partir de ahora usamos npm start en lugar de node index.js
+ * Se ha instalado EJS (Embedded JavaScript) un template engine para renderzar de forma dinámica html con diferentes sciptles.
+ * Asi no tendrámos que actualizar manualmente los compoentes como <nav> de manera manual y hacer la app escalable y mantenible.
  */
 
-const express = require('express') //Import de express en Node
+const express = require('express') 
+// const path = require('path')
+const ejs = require('ejs') // import de EJS. Todos archivos terminados en .ejs se renderizan con el paquete ejs
 
-const app = new express() // Hacemos uso de la función express para la creación de una nueva app
-const path = require('path')
+const app = new express() 
 
-app.use(express.static('public')) //express cargará los recursos estáticos desde la carpeta 'public'
+app.use(express.static('public'))
+app.set('view engine', 'ejs') // con la indicación de app.set() le indicamos a express que use ejs como nuestro template engine. 
 
-//Funcion especial de express para iniciar, inicia el server en el puerto 4000 y carga callback de req/res en segundo argumento.
 app.listen(4000, ()=>{
     console.log('App listening on port 4000')
 })
 
 /**
- * Ahora se llama a los arcivos con peticiones get desde el server e lugar de renders estáticos.
- * Ej. en lugar de cargar contanto.html con localhost:4000/contacto.html se hará localhost:4000/contacto
+ * En lugar de path para cargar el achivo de manera estática, usaremos res.render() para rendewizar views.
+ * Pages pasrá a renombrarse views y la extensión html será .ejs
  */
 
+app.get('/', (req, res) => {
+    // res.sendFile(path.resolve(__dirname, 'pages/index.html'))
+    res.render('index')
+})
+
 app.get('/about', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+    // res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+    res.render('about')
 })
 
 app.get('/contact', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+    // res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+    res.render('contact')
 })
 
 app.get('/post', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+    // res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+    res.render('post')
 })
 
-app.get('/', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'pages/index.html'))
-})
