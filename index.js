@@ -46,4 +46,6 @@ app.get('/post', (req, res) => {
  * Ej. nav, header, footer etc.
  * 
  * Reemplazamos los elementos estáticos en cada view por scriptles del tipo <%- include('layout/elemento')%>
+ * 
+ * AHora podremos editar nav, por ejemplo, con los links de las peticiones get, sin tener que ir editando todas las views una por una.
  */
