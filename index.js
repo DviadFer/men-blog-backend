@@ -41,3 +41,9 @@ app.get('/post', (req, res) => {
     res.render('post')
 })
 
+/**
+ * Layouts folder contiene los elementos comunes para todas la views y evitar así repetirlos en el código.
+ * Ej. nav, header, footer etc.
+ * 
+ * Reemplazamos los elementos estáticos en cada view por scriptles del tipo <%- include('layout/elemento')%>
+ */
