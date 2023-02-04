@@ -10,6 +10,8 @@ const express = require('express') //Import de express en Node
 
 const app = new express() // Hacemos uso de la función express para la creación de una nueva app
 
+app.use(express.static('public')) //express cargará los recursos estáticos desde la carpeta 'public'
+
 //Funcion especial de express para iniciar, inicia el server en el puerto 4000 y carga callback de req/res en segundo argumento.
 app.listen(4000, ()=>{
     console.log('App listening on port 4000')
