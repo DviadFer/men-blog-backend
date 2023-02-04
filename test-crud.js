@@ -6,7 +6,7 @@ mongoose.set('strictQuery', false)
 mongoose.connect('mongodb://localhost/my_dayabase', {useNewUrlParser: true}) 
 
 /**
- * La función create() de mongoose (operaciones CRUD), necesita dos argumentos.
+ * La función create() de mongoose (operación create en CRUD), necesita dos argumentos.
  * En el primero va la info que lleva el documento de la lacoleccion que estmaos dando de alta con create.
  * El segundo iría una función callback que se ejecuta cuando el create se ejecuta. En este caso,
  * retornamos el error (si no hay devuelve null) y el output del modelo target ('blogpost' le llamamos al argumento en el ejemplo) por consola.
@@ -19,7 +19,7 @@ BlogPost.create({
 })
 
 /**
- * La función find() funciona igual que create() en cuanto a los argumentos. Pero el primero,
+ * La función find() (read en crud) funciona igual que create() en cuanto a los argumentos. Pero el primero,
  * iría la query especifica que querramos buscar. SI se deja vacío, como en este caso, devuelve todos
  * los documentos asociados a la colleción del modelo BlogPost.
  */
@@ -49,14 +49,14 @@ BlogPost.findById(id, (error, resultado) => {
     console.log(error, resultado)
 })
 
-//Para cambiar el titulo de un documento despues de buscarlo por su id
+//Para cambiar el titulo (update en crud) de un documento despues de buscarlo por su id
 BlogPost.findByIdAndUpdate(id, {
     title:'Nuevo título'
 }, (error, resultado) => {
     console.log(error, resultado)
 })
 
-//Para eliminar un documento por su id
+//Para eliminar (delete en crud) un documento por su id
 BlogPost.findByIdAndDelete(id, (error, resultado) => {
     console.log(error, resultado)
 })
