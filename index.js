@@ -9,10 +9,32 @@
 const express = require('express') //Import de express en Node
 
 const app = new express() // Hacemos uso de la función express para la creación de una nueva app
+const path = require('path')
 
 app.use(express.static('public')) //express cargará los recursos estáticos desde la carpeta 'public'
 
 //Funcion especial de express para iniciar, inicia el server en el puerto 4000 y carga callback de req/res en segundo argumento.
 app.listen(4000, ()=>{
     console.log('App listening on port 4000')
+})
+
+/**
+ * Ahora se llama a los arcivos con peticiones get desde el server e lugar de renders estáticos.
+ * Ej. en lugar de cargar contanto.html con localhost:4000/contacto.html se hará localhost:4000/contacto
+ */
+
+app.get('/about', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/about.html'))
+})
+
+app.get('/contact', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/contact.html'))
+})
+
+app.get('/post', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/post.html'))
+})
+
+app.get('/', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'pages/index.html'))
 })
