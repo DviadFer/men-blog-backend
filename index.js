@@ -4,6 +4,7 @@ const ejs = require('ejs')
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
 mongoose.set('strictQuery', false) 
 mongoose.connect('mongodb://localhost/my_dayabase', {useNewUrlParser: true}) //Conexión a la base de datos. Si no detecta la db la crea automáticamente.
+const BlogPost = require('./models/BlogPost')
 
 const app = new express() 
 
@@ -47,7 +48,11 @@ app.get('/posts/new', (req, res) => {
  * Como respues, usaremos el metodo de Express redirect(). Con Node nativo, las redirecciones implican mucho más código.
  */
 app.post('/posts/store', (req, res) =>{
-    console.log(req.url)
     console.log(req.body) //Podemos incluso acceder a propiedades individuales. Ej req.body.title, req.body.message
-    res.redirect('/')
+    //Usamos create() para meter en la colección correspondiente al modelo BlogPost y metemos el jason del body como documento
+    BlogPost.create(req.body, (error, result) =>{
+        console.log(error)
+        console.log(result)
+        res.redirect('/')
+    })
 })
