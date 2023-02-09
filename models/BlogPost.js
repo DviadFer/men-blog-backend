@@ -9,7 +9,7 @@ const Schema = mongoose.Schema
  */
 const BlogPostSchema = new Schema ({
     title: String,
-    body: String
+    message: String
 })
 
 /**

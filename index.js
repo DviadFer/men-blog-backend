@@ -47,12 +47,9 @@ app.get('/posts/new', (req, res) => {
  * Primera petición post. La quest recoge lo que sale del formulario de la view create.ejs. Sus datos se encuentran en el cuerpo de la petición.
  * Como respues, usaremos el metodo de Express redirect(). Con Node nativo, las redirecciones implican mucho más código.
  */
-app.post('/posts/store', (req, res) =>{
+app.post('/posts/store', async (req, res) =>{
     console.log(req.body) //Podemos incluso acceder a propiedades individuales. Ej req.body.title, req.body.message
     //Usamos create() para meter en la colección correspondiente al modelo BlogPost y metemos el jason del body como documento
-    BlogPost.create(req.body, (error, result) =>{
-        console.log(error)
-        console.log(result)
-        res.redirect('/')
-    })
+    await BlogPost.create(req.body).catch(err => console.log(err))
+    res.redirect('/')
 })
