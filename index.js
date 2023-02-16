@@ -23,8 +23,16 @@ app.listen(4000, ()=>{
     console.log('App listening on port 4000')
 })
 
-app.get('/', (req, res) => {
-    res.render('index')
+app.get('/', async (req, res) => {
+    const postList = await BlogPost.find({})
+    /**
+     * El metodo render de la respuesta permite pasar info al cliente (para manejar en la view de index) a traves del segundo argumento.
+     * En este caso pasamos lo que nos devuelve la variable sobre la que hicimos un find del total de la base de datos.
+     * La variable la pasamos entre {} porque queremos que se reconozca como un objeto. SI la pasamos tal cual, será un array.
+     * 
+     * En index.ejs se implementará un bucle for each para imprimir el contenido.
+     */
+    res.render('index', {postList})
 })
 
 app.get('/about', (req, res) => {
