@@ -8,8 +8,13 @@ const Schema = mongoose.Schema
  * tendrá la estructura especificada en su Schema.
  */
 const BlogPostSchema = new Schema ({
-    title: String,
-    message: String
+    title: String, /* propiedad : tipo,*/
+    message: String,
+    author: String,
+    datePosted: { /*Si queremos poner valores por defecto en un schema, se declara el tipo de propiedad así:*/ 
+        type: Date,
+        default: new Date()
+    }
 })
 
 /**
