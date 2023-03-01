@@ -43,8 +43,14 @@ app.get('/contact', (req, res) => {
     res.render('contact')
 })
 
-app.get('/post', (req, res) => {
-    res.render('post')
+/**
+ * :id es una wildcard que acepta cualquier string. Tiene que ser declarativa como las varibles para saber a que hace referencia.
+ * Como anteriormente pusimos en index.ejs href="/post/<%= post.id %>", le llamamos :id
+ */
+app.get('/post/:id', async (req, res) => {
+    console.log(req.params) //Saca por consola lo que viene despues de /post/ en la URL (params). Saldra la wildcard y su valor.
+    const singlePost = await BlogPost.findById(req.params.id) //Del objeto params, seleccionamos el valor de la wildcard id (nombrada así antes)
+    res.render('post', {singlePost}) // Pasamos el resultado de query como objeto para post.ejs
 })
 
 app.get('/posts/new', (req, res) => {
