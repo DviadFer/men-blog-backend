@@ -1,5 +1,7 @@
 const express = require('express') 
 const ejs = require('ejs')
+// path y file upload de express para poder gestionar la subida de archivos multimedia a traves del formulario de cración de posts
+const path = require('path')
 const fileUpload = require('express-fileupload')
 
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
@@ -66,12 +68,15 @@ app.get('/posts/new', (req, res) => {
  * 
  * Se ha modificado para poder subir las images a /public/img. 
  * el método .mv() sirve para mover el objeto imagen y guardar la info como archivo. Sintásis en https://www.npmjs.com/package/express-fileupload
- * Se ha movido el async de manera correspondiente.
+ * Se ha movido el async de manera correspondiente. Necesario crear carpeta antes, mv no crea directorios
  */
 app.post('/posts/store', (req, res) =>{
     let image = req.files.image
     image.mv(path.resolve(__dirname, 'public/img', image.name), async () =>{
-        await BlogPost.create(req.body).catch(err => console.log(err))
+        await BlogPost.create({
+            ...req.body,
+            image: '/img/' + image.name
+        }).catch(err => console.log(err))
         res.redirect('/')
     })
 })

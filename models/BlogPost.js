@@ -14,7 +14,8 @@ const BlogPostSchema = new Schema ({
     datePosted: { /*Si queremos poner valores por defecto en un schema, se declara el tipo de propiedad así:*/ 
         type: Date,
         default: new Date()
-    }
+    },
+    image: String
 })
 
 /**
