@@ -1,5 +1,6 @@
 const express = require('express') 
 const ejs = require('ejs')
+const fileUpload = require('express-fileupload')
 
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
 mongoose.set('strictQuery', false) 
@@ -18,6 +19,8 @@ app.set('view engine', 'ejs')
  */
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+
+app.use(fileUpload()) // express-file upload añade la propiedad "files" al objeto req para que podemos acceder a los archivos subidos con req.files
 
 app.listen(4000, ()=>{
     console.log('App listening on port 4000')
@@ -60,10 +63,16 @@ app.get('/posts/new', (req, res) => {
 /**
  * Primera petición post. La quest recoge lo que sale del formulario de la view create.ejs. Sus datos se encuentran en el cuerpo de la petición.
  * Como respues, usaremos el metodo de Express redirect(). Con Node nativo, las redirecciones implican mucho más código.
+ * 
+ * Se ha modificado para poder subir las images a /public/img. 
+ * el método .mv() sirve para mover el objeto imagen y guardar la info como archivo. Sintásis en https://www.npmjs.com/package/express-fileupload
+ * Se ha movido el async de manera correspondiente.
  */
-app.post('/posts/store', async (req, res) =>{
-    console.log(req.body) //Podemos incluso acceder a propiedades individuales. Ej req.body.title, req.body.message
-    //Usamos create() para meter en la colección correspondiente al modelo BlogPost y metemos el jason del body como documento
-    await BlogPost.create(req.body).catch(err => console.log(err))
-    res.redirect('/')
+app.post('/posts/store', (req, res) =>{
+    let image = req.files.image
+    image.mv(path.resolve(__dirname, 'public/img', image.name), async () =>{
+        await BlogPost.create(req.body).catch(err => console.log(err))
+        res.redirect('/')
+    })
 })
+

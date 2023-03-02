@@ -23,7 +23,8 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
                         <div class="my-5">
-                            <form id="contactForm" action="/posts/store" method="post">
+                            <!-- enctype: This form now encyps media data before upload to server -->
+                            <form id="contactForm" action="/posts/store" method="post" enctype="multipart/form-data"> 
                                 <div class="form-floating">
                                     <input class="form-control" id="title" name="title" type="text" placeholder="Enter your title..."/>
                                     <label for="title">Title</label>
@@ -35,6 +36,13 @@
                                 <div class="form-floating">
                                     <textarea class="form-control" id="message" name="message" placeholder="Enter your message here..." style="height: 12rem"></textarea>
                                     <label for="message">Message</label>
+                                </div>
+                                <br />
+                                <div class="control-group">
+                                    <div class="form-group floating-label-form-group controls">
+                                        <label for="image">Image</label>
+                                        <input type="file" class="form-control" name="image" id="image">
+                                    </div>
                                 </div>
                                 <br />
                                 <!-- Submit Button-->
