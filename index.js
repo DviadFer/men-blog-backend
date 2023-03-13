@@ -1,102 +1,41 @@
 const express = require('express') 
 const ejs = require('ejs')
-// path y file upload de express para poder gestionar la subida de archivos multimedia a traves del formulario de cración de posts
-const path = require('path')
 const fileUpload = require('express-fileupload')
 
+//Database connection
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
 mongoose.set('strictQuery', false) 
 mongoose.connect('mongodb://localhost/my_dayabase', {useNewUrlParser: true}) //Conexión a la base de datos. Si no detecta la db la crea automáticamente.
-const BlogPost = require('./models/BlogPost')
 
+//App setup
 const app = new express() 
-
-/**
- * 
- * Los app.use() son middleware. Son funciones que se qujutan tras recibir req y antes de reusltar una res. 
- * Se compone de dos argumentos, el primero es la peticion que qeremos aplicar el middleware, si no ponemos nada se aplica a todas.
- * El segundo es la llamada la función middleware que se ejecuta. en este caso hemos creado una custom que valida el formulario posts/new
- */
-const validateMiddleWare = (req, res, next) => {
-    if (req.files == null || req.body.title == null || req.body.message == null) {
-        console.log('There is some empty fields')
-        return res.redirect('/posts/new')
-    }
-    next() //Siempre tiene que traer la indicacion next() para que la peticion no se interrumpa y salte a otros middlewares o la res final.
-}
-
-app.use('/posts/store', validateMiddleWare)
-
-app.use(express.static('public'))
-app.set('view engine', 'ejs') 
-
-/**
- * Permite dar formato al body de la petición.
- * .json() looks at requests where the Content-Type: application/json header is present and transforms the text-based JSON input into JS-accessible variables under req.body
- * .urlencoded({extended: true}) does the same for URL-encoded requests. the extended: true precises that the req.body object will contain values of any type instead of just strings.
- */
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
-
-app.use(fileUpload()) // express-file upload añade la propiedad "files" al objeto req para que podemos acceder a los archivos subidos con req.files
-
 app.listen(4000, ()=>{
     console.log('App listening on port 4000')
 })
 
-app.get('/', async (req, res) => {
-    const postList = await BlogPost.find({})
-    /**
-     * El metodo render de la respuesta permite pasar info al cliente (para manejar en la view de index) a traves del segundo argumento.
-     * En este caso pasamos lo que nos devuelve la variable sobre la que hicimos un find del total de la base de datos.
-     * La variable la pasamos entre {} porque queremos que se reconozca como un objeto. SI la pasamos tal cual, será un array.
-     * 
-     * En index.ejs se implementará un bucle for each para imprimir el contenido.
-     */
-    res.render('index', {postList})
-})
+//Middleware
+const validateMiddleWare = require('./middleware/validationMiddleware')
+app.use('/posts/store', validateMiddleWare)
+app.use(express.static('public'))
+app.set('view engine', 'ejs') 
+app.use(express.json())
+app.use(express.urlencoded({extended:true}))
+app.use(fileUpload()) 
 
-app.get('/about', (req, res) => {
-    res.render('about')
-})
+// Controllers
+const homeControler = require('./controllers/home')
+const aboutControler = require('./controllers/about')
+const contactControler = require('./controllers/contact')
+const getPostControler = require('./controllers/getPost')
+const newPostControler = require('./controllers/newPost')
+const storePostControler = require('./controllers/storePost')
 
-app.get('/contact', (req, res) => {
-    res.render('contact')
-})
+//Get
+app.get('/', homeControler)
+app.get('/about', aboutControler)
+app.get('/contact', contactControler)
+app.get('/post/:id', getPostControler)
+app.get('/posts/new', newPostControler)
 
-/**
- * :id es una wildcard que acepta cualquier string. Tiene que ser declarativa como las varibles para saber a que hace referencia.
- * Como anteriormente pusimos en index.ejs href="/post/<%= post.id %>", le llamamos :id
- */
-app.get('/post/:id', async (req, res) => {
-    console.log(req.params) //Saca por consola lo que viene despues de /post/ en la URL (params). Saldra la wildcard y su valor.
-    const singlePost = await BlogPost.findById(req.params.id) //Del objeto params, seleccionamos el valor de la wildcard id (nombrada así antes)
-    res.render('post', {singlePost}) // Pasamos el resultado de query como objeto para post.ejs
-})
-
-app.get('/posts/new', (req, res) => {
-    res.render('create')
-})
-
-/**
- * Primera petición post. La quest recoge lo que sale del formulario de la view create.ejs. Sus datos se encuentran en el cuerpo de la petición.
- * Como respues, usaremos el metodo de Express redirect(). Con Node nativo, las redirecciones implican mucho más código.
- * 
- * Se ha modificado para poder subir las images a /public/img. 
- * el método .mv() sirve para mover el objeto imagen y guardar la info como archivo. Sintásis en https://www.npmjs.com/package/express-fileupload
- * Se ha movido el async de manera correspondiente. Necesario crear carpeta antes, mv no crea directorios
- */
-app.post('/posts/store', (req, res) =>{
-    let image = req.files.image
-    image.mv(path.resolve(__dirname, 'public/img', image.name), async () =>{
-        await BlogPost.create({
-            /**
-             * Poniendo entre corchetes req.body y ... antes de el, pasamos en .create() un nuevo objeto con todo el contenido de ...req.body más todas las propiedades que añadamos.
-             * En este caso le pasamos imagen y string que equivaldrá a la ruta de la imagen
-             */
-            ...req.body,
-            image: '/img/' + image.name
-        }).catch(err => console.log(err))
-        res.redirect('/')
-    })
-})
+//Post
+app.post('/posts/store', storePostControler)
