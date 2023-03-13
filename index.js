@@ -11,6 +11,22 @@ const BlogPost = require('./models/BlogPost')
 
 const app = new express() 
 
+/**
+ * 
+ * Los app.use() son middleware. Son funciones que se qujutan tras recibir req y antes de reusltar una res. 
+ * Se compone de dos argumentos, el primero es la peticion que qeremos aplicar el middleware, si no ponemos nada se aplica a todas.
+ * El segundo es la llamada la función middleware que se ejecuta. en este caso hemos creado una custom que valida el formulario posts/new
+ */
+const validateMiddleWare = (req, res, next) => {
+    if (req.files == null || req.body.title == null || req.body.message == null) {
+        console.log('There is some empty fields')
+        return res.redirect('/posts/new')
+    }
+    next() //Siempre tiene que traer la indicacion next() para que la peticion no se interrumpa y salte a otros middlewares o la res final.
+}
+
+app.use('/posts/store', validateMiddleWare)
+
 app.use(express.static('public'))
 app.set('view engine', 'ejs') 
 
@@ -84,4 +100,3 @@ app.post('/posts/store', (req, res) =>{
         res.redirect('/')
     })
 })
-
