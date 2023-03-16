@@ -1,6 +1,5 @@
 const express = require('express') 
 const fileUpload = require('express-fileupload')
-// const ejs = require('ejs')
 
 //Database connection
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
@@ -30,6 +29,7 @@ const getPostControler = require('./controllers/getPost')
 const newPostControler = require('./controllers/newPost')
 const storePostControler = require('./controllers/storePost')
 const newUserControler = require('./controllers/newUser')
+const storeUserControler = require('./controllers/storeUser')
 
 //Get
 app.get('/', homeControler)
@@ -41,3 +41,4 @@ app.get('/users/new', newUserControler)
 
 //Post
 app.post('/posts/store', storePostControler)
+app.post('/users/store', storeUserControler)
