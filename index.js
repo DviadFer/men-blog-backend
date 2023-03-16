@@ -30,6 +30,8 @@ const newPostControler = require('./controllers/newPost')
 const storePostControler = require('./controllers/storePost')
 const newUserControler = require('./controllers/newUser')
 const storeUserControler = require('./controllers/storeUser')
+const loginUserControler = require('./controllers/loginUser')
+const sessionUserControler = require('./controllers/sessionUser')
 
 //Get
 app.get('/', homeControler)
@@ -38,7 +40,9 @@ app.get('/contact', contactControler)
 app.get('/post/:id', getPostControler)
 app.get('/posts/new', newPostControler)
 app.get('/users/new', newUserControler)
+app.get('/users/login', loginUserControler)
 
 //Post
 app.post('/posts/store', storePostControler)
 app.post('/users/store', storeUserControler)
+app.post('/users/session', sessionUserControler)
