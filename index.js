@@ -18,13 +18,14 @@ app.listen(4000, ()=>{
 const validateMiddleWare = require('./middleware/validationMiddleware')
 app.use('/posts/store', validateMiddleWare)
 app.use(express.static('public'))
-app.set('view engine', 'ejs') 
+app.set('view engine', 'ejs')
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(fileUpload())
 //la string asociada a secret será usada por el paquete express-session para firmar y encriptar el ID de sesión que es compartido en el navegador.
 //en dev tools del browser 'keyboard cat' saldrá hasheada.
 app.use(expressSession({secret: 'keyboard cat'}))
+const authMiddleware = require('./middleware/authMiddleware')
 
 // Controllers
 const homeControler = require('./controllers/home')
@@ -43,11 +44,11 @@ app.get('/', homeControler)
 app.get('/about', aboutControler)
 app.get('/contact', contactControler)
 app.get('/post/:id', getPostControler)
-app.get('/posts/new', newPostControler)
+app.get('/posts/new', authMiddleware, newPostControler)
 app.get('/users/new', newUserControler)
 app.get('/users/login', loginUserControler)
 
 //Post
-app.post('/posts/store', storePostControler)
+app.post('/posts/store', authMiddleware, storePostControler)
 app.post('/users/store', storeUserControler)
 app.post('/users/session', sessionUserControler)
