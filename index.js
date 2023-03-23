@@ -1,5 +1,7 @@
 const express = require('express') 
 const fileUpload = require('express-fileupload')
+//Package to store user session in browser cookies
+const expressSession = require('express-session')
 
 //Database connection
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
@@ -19,7 +21,10 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs') 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-app.use(fileUpload()) 
+app.use(fileUpload())
+//la string asociada a secret será usada por el paquete express-session para firmar y encriptar el ID de sesión que es compartido en el navegador.
+//en dev tools del browser 'keyboard cat' saldrá hasheada.
+app.use(expressSession({secret: 'keyboard cat'}))
 
 // Controllers
 const homeControler = require('./controllers/home')
