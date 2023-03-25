@@ -51,6 +51,7 @@ const newUserControler = require('./controllers/newUser')
 const storeUserControler = require('./controllers/storeUser')
 const loginUserControler = require('./controllers/loginUser')
 const sessionUserControler = require('./controllers/sessionUser')
+const logoutUserController = require('./controllers/logoutUser')
 
 //Get
 app.get('/', homeControler)
@@ -60,6 +61,7 @@ app.get('/post/:id', getPostControler)
 app.get('/posts/new', authMiddleware, newPostControler)
 app.get('/users/new', redirectIfAuthMiddleware, newUserControler)
 app.get('/users/login', redirectIfAuthMiddleware, loginUserControler)
+app.get('/users/logout', logoutUserController)
 
 //Post
 app.post('/posts/store', authMiddleware, storePostControler)
