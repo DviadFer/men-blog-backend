@@ -62,6 +62,7 @@ app.get('/posts/new', authMiddleware, newPostControler)
 app.get('/users/new', redirectIfAuthMiddleware, newUserControler)
 app.get('/users/login', redirectIfAuthMiddleware, loginUserControler)
 app.get('/users/logout', logoutUserController)
+app.get('*', (req, res) => res.render('notfound'))
 
 //Post
 app.post('/posts/store', authMiddleware, storePostControler)
