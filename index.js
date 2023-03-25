@@ -26,6 +26,19 @@ app.use(fileUpload())
 //en dev tools del browser 'keyboard cat' saldrá hasheada.
 app.use(expressSession({secret: 'keyboard cat'}))
 const authMiddleware = require('./middleware/authMiddleware')
+const redirectIfAuthMiddleware = require('./middleware/redirectIfAuthMiddleware')
+
+/**
+ * Variable global para todas las plantillas EJS y función para guardar el token de sesión userId. 
+ * Así podremos acceder desde cualquier parte del código a esta variable y montrar bloques concretos o no en función de esta.
+ * La wildcard '*' hace que la función se palique a todas las peticiones del servidor.
+ */
+global.loggedIn = null
+
+app.use('*', (req, res, next) => {
+    loggedIn = req.session.userId
+    next()
+})
 
 // Controllers
 const homeControler = require('./controllers/home')
@@ -45,10 +58,10 @@ app.get('/about', aboutControler)
 app.get('/contact', contactControler)
 app.get('/post/:id', getPostControler)
 app.get('/posts/new', authMiddleware, newPostControler)
-app.get('/users/new', newUserControler)
-app.get('/users/login', loginUserControler)
+app.get('/users/new', redirectIfAuthMiddleware, newUserControler)
+app.get('/users/login', redirectIfAuthMiddleware, loginUserControler)
 
 //Post
 app.post('/posts/store', authMiddleware, storePostControler)
-app.post('/users/store', storeUserControler)
-app.post('/users/session', sessionUserControler)
+app.post('/users/store', redirectIfAuthMiddleware, storeUserControler)
+app.post('/users/session', redirectIfAuthMiddleware, sessionUserControler)
