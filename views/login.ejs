@@ -24,13 +24,20 @@
                         <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
                         <div class="my-5">
                             <!-- enctype: This form now encyps media data before upload to server -->
+                            <% if(errors != null && errors.length > 0){ %>
+                                <ul class="list-group"></ul>
+                                <% errors.forEach(error => { %>
+                                    <li style="margin-bottom: 10px" class="list-group-item list-group-item-danger"><%= error %></li>
+                                <%  }) %>
+                                </ul>
+                            <% } %>
                             <form id="contactForm" action="/users/session" method="post" enctype="multipart/form-data"> 
                                 <div class="form-floating">
-                                    <input class="form-control" id="username" name="username" type="text" placeholder="Enter your user name..."/>
+                                    <input class="form-control" id="username" name="username" value="<%= username %>" type="text" placeholder="Enter your user name..."/>
                                     <label for="username">User name</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" id="password" name="password" type="password" placeholder="Enter your passworde name..."/>
+                                    <input class="form-control" id="password" name="password" value="<%= password %>" type="password" placeholder="Enter your passworde name..."/>
                                     <label for="password">Password</label>
                                 </div>
                                 <br />
