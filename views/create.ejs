@@ -18,23 +18,27 @@
         </header>
         <!-- Main Content-->
         <main class="mb-4">
-            <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <p>Want to get in touch? Fill out the form below to send me a message and I will get back to you as soon as possible!</p>
                         <div class="my-5">
                             <!-- enctype: This form now encyps media data before upload to server -->
+                            <% if(errors != null && errors.length > 0){ %>
+                                <ul class="list-group"></ul>
+                                    <li style="margin-bottom: 10px" class="list-group-item list-group-item-danger"><%= errors %></li>
+                                </ul>
+                            <% } %>
                             <form id="contactForm" action="/posts/store" method="post" enctype="multipart/form-data"> 
                                 <div class="form-floating">
-                                    <input class="form-control" id="title" name="title" type="text" placeholder="Enter your title..."/>
+                                    <input class="form-control" id="title" name="title" value="<%= title %>" type="text" placeholder="Enter your title..."/>
                                     <label for="title">Title</label>
                                 </div>
                                 <div class="form-floating">
-                                    <input class="form-control" id="author" name="author" type="text" placeholder="Enter your authore name..."/>
+                                    <input class="form-control" id="author" name="author" value="<%= author %>" type="text" placeholder="Enter your authore name..."/>
                                     <label for="author">Author</label>
                                 </div>
                                 <div class="form-floating">
-                                    <textarea class="form-control" id="message" name="message" placeholder="Enter your message here..." style="height: 12rem"></textarea>
+                                    <textarea class="form-control" id="message" name="message" value="<%= message %>" placeholder="Enter your message here..." style="height: 12rem"></textarea>
                                     <label for="message">Message</label>
                                 </div>
                                 <br />

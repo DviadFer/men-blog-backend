@@ -23,8 +23,6 @@ app.listen(4000, ()=>{
 })
 
 //Middleware
-const validateMiddleWare = require('./middleware/validationMiddleware')
-app.use('/posts/store', validateMiddleWare)
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.use(express.json())
@@ -37,6 +35,8 @@ const authMiddleware = require('./middleware/authMiddleware')
 const redirectIfAuthMiddleware = require('./middleware/redirectIfAuthMiddleware')
 //Middleware del paquete connect-flash
 app.use(flash())
+const validateMiddleWare = require('./middleware/validationMiddleware')
+app.use('/posts/store', validateMiddleWare)
 
 /**
  * Variable global para todas las plantillas EJS y función para guardar el token de sesión userId. 
