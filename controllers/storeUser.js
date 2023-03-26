@@ -12,7 +12,9 @@ module.exports = async (req, res) => {
             console.log(validationErrors);
 
             //Podemos guardar estos mensajes de errores en nuestras cookies de sesión para mostrarlos luego:
-            req.session.validationErrors = validationErrors 
+            // req.session.validationErrors = validationErrors 
+            //Pero vamos a usar connect-flash para que el guardado de errores no sea permanente en la sesión
+            req.flash('validationErrors', validationErrors)
             return res.redirect('/users/new')
         } 
         res.redirect('/')

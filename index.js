@@ -2,6 +2,14 @@ const express = require('express')
 const fileUpload = require('express-fileupload')
 //Package to store user session in browser cookies
 const expressSession = require('express-session')
+/**
+ * Al guardar los mensajes de error en una sesión, estos permanecen allí incluso después de que el usuario envíe el formulario correctamente 
+ * y lo vuelva a visitar más tarde, lo que puede ser problemático. Aquí es donde entra en juego el flushing de los datos de errores después 
+ * del ciclo de vida de la solicitud actual para que no estén disponibles en la próxima solicitud. Connect-flash es un paquete que se puede 
+ * utilizar para crear un área especial en la sesión para almacenar y borrar mensajes después de que se muestren al usuario, lo que lo 
+ * convierte en una herramienta útil para implementar flushing.
+ */
+const flash = require('connect-flash');
 
 //Database connection
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
@@ -27,6 +35,8 @@ app.use(fileUpload())
 app.use(expressSession({secret: 'keyboard cat'}))
 const authMiddleware = require('./middleware/authMiddleware')
 const redirectIfAuthMiddleware = require('./middleware/redirectIfAuthMiddleware')
+//Middleware del paquete connect-flash
+app.use(flash())
 
 /**
  * Variable global para todas las plantillas EJS y función para guardar el token de sesión userId. 
