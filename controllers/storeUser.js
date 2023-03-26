@@ -15,6 +15,10 @@ module.exports = async (req, res) => {
             // req.session.validationErrors = validationErrors 
             //Pero vamos a usar connect-flash para que el guardado de errores no sea permanente en la sesión
             req.flash('validationErrors', validationErrors)
+
+            //Para mantener los datos ingresados, también almacenamos en caché req.body, que contiene los datos ingresados en el formulario.
+            req.flash('data',req.body)
+
             return res.redirect('/users/new')
         } 
         res.redirect('/')

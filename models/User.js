@@ -13,12 +13,12 @@ var uniqueValidator = require('mongoose-unique-validator')
 const UserSchema = new Schema ({
     username: {
         type: String,
-        required: true,
+        required: [true,'Please provide username'], //Se puede customizar el mensaje de rror si no se cumple la condición
         unique: true
     },
     password: {
         type: String,
-        required: true
+        required: [true,'Please provide password']
     }
 })
 
