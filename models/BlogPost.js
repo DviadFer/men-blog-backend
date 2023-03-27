@@ -10,7 +10,11 @@ const Schema = mongoose.Schema
 const BlogPostSchema = new Schema ({
     title: String, /* propiedad : tipo,*/
     message: String,
-    author: String,
+    author: {
+        type: mongoose.Schema.Types.ObjectId, /*Objeto ID valido de Mongodb*/ 
+        ref: 'User',
+        required: true
+    },
     datePosted: { /*Si queremos poner valores por defecto en un schema, se declara el tipo de propiedad así:*/ 
         type: Date,
         default: new Date()

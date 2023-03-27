@@ -11,6 +11,7 @@ module.exports = (req, res) => {
              * En este caso le pasamos imagen y string que equivaldrá a la ruta de la imagen
              */
             ...req.body,
+            author: req.session.userId,
             image: '/img/' + image.name
         }).catch(err => console.log(err))
         res.redirect('/')
