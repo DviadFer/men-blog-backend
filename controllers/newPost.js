@@ -15,7 +15,8 @@ module.exports = (req, res) => {
             errors: req.flash('error'),
             title: title,
             message: message,
-            author: author
+            author: author,
+            createPost: true /*Usado para cargar luego en ejs los scripts del editor WYSIWYG del textarea message*/
         })
     }
     res.redirect('/users/login')

@@ -4,5 +4,10 @@ module.exports = (req, res, next) => {
         req.flash('postData', req.body)
         return res.redirect('/posts/new')
     }
+    if (req.files == null) {
+        req.flash('error', 'Uploading a header image is mandatory')
+        req.flash('postData', req.body)
+        return res.redirect('/posts/new')
+    }
     next() 
 }

@@ -33,14 +33,21 @@
                                     <input class="form-control" id="title" name="title" value="<%= title %>" type="text" placeholder="Enter your title..."/>
                                     <label for="title">Title</label>
                                 </div>
-                                <div class="form-floating">
+                                <br />
+                                <div class="form-group">
                                     <textarea class="form-control" id="message" name="message" value="<%= message %>" placeholder="Enter your message here..." style="height: 12rem"></textarea>
-                                    <label for="message">Message</label>
                                 </div>
+                                <script>
+                                    $('#message').summernote({
+                                        placeholder: 'Write your content here...',
+                                        tabsize: 2,
+                                        height: 200
+                                    });
+                                </script>
                                 <br />
                                 <div class="control-group">
                                     <div class="form-group floating-label-form-group controls">
-                                        <label for="image">Image</label>
+                                        <label for="image">Header image</label>
                                         <input type="file" class="form-control" name="image" id="image">
                                     </div>
                                 </div>
