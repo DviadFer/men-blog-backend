@@ -10,11 +10,12 @@ const expressSession = require('express-session')
  * convierte en una herramienta útil para implementar flushing.
  */
 const flash = require('connect-flash');
+require('dotenv').config();
 
 //Database connection
 const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
 mongoose.set('strictQuery', false) 
-mongoose.connect('mongodb://localhost/my_dayabase', {useNewUrlParser: true}) //Conexión a la base de datos. Si no detecta la db la crea automáticamente.
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true}) //Conexión a la base de datos. Si no detecta la db la crea automáticamente.
 
 //App setup
 const app = new express() 
