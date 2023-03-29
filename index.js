@@ -11,9 +11,7 @@ mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
 
 //App setup
 const app = new express() 
-app.listen(4000, ()=>{
-    console.log('App listening on port 4000')
-})
+app.listen(4000, ()=>{})
 
 //Middleware
 app.use(express.static('public'))

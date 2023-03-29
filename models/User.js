@@ -20,7 +20,6 @@ UserSchema.plugin(uniqueValidator);
 UserSchema.pre('save', function(next) {
     let user = this 
     bcrypt.hash(user.password, 10, (error, hash) => {
-        console.log(error, hash);
         user.password = hash
         next()
     })

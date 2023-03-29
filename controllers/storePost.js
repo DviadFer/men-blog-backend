@@ -8,7 +8,7 @@ module.exports = (req, res) => {
             ...req.body,
             author: req.session.userId,
             image: '/img/' + image.name
-        }).catch(err => console.log(err))
+        })
         res.redirect('/')
     })
 }
