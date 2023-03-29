@@ -3,7 +3,6 @@ module.exports = (req, res) => {
         var title 
         var author 
         var message
-        //Datos almacenados en cache del formulario desde storeUser.js. Si no hubo error alguno estarán como indefinidos
         const data = req.flash('postData')[0];
     
         if(typeof data != "undefined"){
@@ -16,7 +15,7 @@ module.exports = (req, res) => {
             title: title,
             message: message,
             author: author,
-            createPost: true /*Usado para cargar luego en ejs los scripts del editor WYSIWYG del textarea message*/
+            createPost: true 
         })
     }
     res.redirect('/users/login')

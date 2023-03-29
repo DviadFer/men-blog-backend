@@ -1,21 +1,13 @@
 const express = require('express') 
 const fileUpload = require('express-fileupload')
-//Package to store user session in browser cookies
 const expressSession = require('express-session')
-/**
- * Al guardar los mensajes de error en una sesión, estos permanecen allí incluso después de que el usuario envíe el formulario correctamente 
- * y lo vuelva a visitar más tarde, lo que puede ser problemático. Aquí es donde entra en juego el flushing de los datos de errores después 
- * del ciclo de vida de la solicitud actual para que no estén disponibles en la próxima solicitud. Connect-flash es un paquete que se puede 
- * utilizar para crear un área especial en la sesión para almacenar y borrar mensajes después de que se muestren al usuario, lo que lo 
- * convierte en una herramienta útil para implementar flushing.
- */
 const flash = require('connect-flash');
 require('dotenv').config();
 
 //Database connection
-const mongoose = require('mongoose') //Paquete de node para conectarnos a las bases de datos MongoDB.
+const mongoose = require('mongoose')
 mongoose.set('strictQuery', false) 
-mongoose.connect(process.env.DB_URL, {useNewUrlParser: true}) //Conexión a la base de datos. Si no detecta la db la crea automáticamente.
+mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
 
 //App setup
 const app = new express() 
@@ -29,8 +21,6 @@ app.set('view engine', 'ejs')
 app.use(fileUpload())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
-//la string asociada a secret será usada por el paquete express-session para firmar y encriptar el ID de sesión que es compartido en el navegador.
-//en dev tools del browser 'keyboard cat' saldrá hasheada.
 app.use(expressSession({
     resave: true,
     saveUninitialized: true,
@@ -38,16 +28,10 @@ app.use(expressSession({
 }))
 const authMiddleware = require('./middleware/authMiddleware')
 const redirectIfAuthMiddleware = require('./middleware/redirectIfAuthMiddleware')
-//Middleware del paquete connect-flash
-app.use(flash())
 const validateMiddleWare = require('./middleware/validationMiddleware')
+app.use(flash())
 app.use('/posts/store', validateMiddleWare)
 
-/**
- * Variable global para todas las plantillas EJS y función para guardar el token de sesión userId. 
- * Así podremos acceder desde cualquier parte del código a esta variable y montrar bloques concretos o no en función de esta.
- * La wildcard '*' hace que la función se palique a todas las peticiones del servidor.
- */
 global.loggedIn = null
 
 app.use('*', (req, res, next) => {
