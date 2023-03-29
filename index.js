@@ -11,7 +11,11 @@ mongoose.connect(process.env.DB_URL, {useNewUrlParser: true})
 
 //App setup
 const app = new express() 
-app.listen(4000, ()=>{})
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 //Middleware
 app.use(express.static('public'))
