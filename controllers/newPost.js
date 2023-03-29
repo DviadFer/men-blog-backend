@@ -3,7 +3,7 @@ module.exports = (req, res) => {
         var title 
         var author 
         var message
-        const data = req.flash('postData')[0];
+        const data = req.flash('postData')[0]
     
         if(typeof data != "undefined"){
             title = data.title

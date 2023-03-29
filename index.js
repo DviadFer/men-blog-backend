@@ -1,8 +1,8 @@
 const express = require('express') 
 const fileUpload = require('express-fileupload')
 const expressSession = require('express-session')
-const flash = require('connect-flash');
-require('dotenv').config();
+const flash = require('connect-flash')
+require('dotenv').config()
 
 //Database connection
 const mongoose = require('mongoose')

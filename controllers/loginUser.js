@@ -2,7 +2,7 @@ module.exports = (req, res) => {
     var username = ""
     var password = ""
 
-    const data = req.flash('loginData')[0];
+    const data = req.flash('loginData')[0]
 
     if(typeof data != "undefined"){
         username = data.username

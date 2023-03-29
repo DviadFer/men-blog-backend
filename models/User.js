@@ -15,7 +15,7 @@ const UserSchema = new Schema ({
     }
 })
 
-UserSchema.plugin(uniqueValidator);
+UserSchema.plugin(uniqueValidator)
 
 UserSchema.pre('save', function(next) {
     let user = this 
