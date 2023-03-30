@@ -9,7 +9,9 @@ module.exports = async (req, res) => {
             req.flash('data',req.body)
 
             return res.redirect('/users/new')
-        } 
+        } else {
+            req.flash('success', `You have successfully <strong>registered as ${user.username}</strong>`)
+        }
         res.redirect('/')
     })
 }

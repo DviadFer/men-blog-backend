@@ -7,6 +7,7 @@ module.exports = (req, res) => {
             bcrypt.compare(req.body.password, user.password, (err, same) => {
                 if (same) {
                     req.session.userId = user._id
+                    req.flash('success', `You have successfully <strong>logged in as ${user.username}</strong>`)
                     return res.redirect('/')
                 } else {
                     req.flash('error', "Password don't match!")
