@@ -13,11 +13,11 @@
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Contact</a></li>
                 <% if(loggedIn) { %>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/posts/new">New Post</a></li>
-                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/logout"><i class="fa-solid fa-right-from-bracket"></i></i></a></li>
+                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/logout"><i class="fa-solid fa-right-from-bracket"></i></i><span class="mobile-display">Logout</span></a></li>
                 <% } %>
                 <% if(!loggedIn) { %>
-                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/login"><i class="fa-solid fa-user"></i></a></li>
-                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/new"><i class="fa-solid fa-key"></i></a></li>
+                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/login"><i class="fa-solid fa-user"></i><span class="mobile-display">Login</span></a></li>
+                <li class="nav-item"><a style="font-size: 16px;" class="nav-link px-lg-3 py-3 py-lg-4" href="/users/new"><i class="fa-solid fa-key"></i><span class="mobile-display">Register</span></a></li>
                 <% } %>
             </ul>
         </div>
