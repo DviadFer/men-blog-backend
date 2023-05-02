@@ -8,10 +8,10 @@ Give it a try with our live demo: https://clean-news.up.railway.app/
 
 ## Features
 
-- User authentication and registration with data validation
-- Article posting
-- Session cookies for storing user information and managing access to links
-- Responsive design using Bootstrap and EJS
+- User authentication and registration with data validation.
+- Article posting.
+- Session cookies for storing user information and managing access to links.
+- Responsive design using Bootstrap and EJS.
 
 ## Requirements
 
